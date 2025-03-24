@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\TeamEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,13 @@ class TeamFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->company(),
+            'created_by' => fake()->numberBetween(3, 8),
+            'team_leader_id' => fake()->numberBetween(9, 24),
+            'category' => fake()->randomElement(TeamEnum::categories()),
+            'updated_by' => fake()->numberBetween(3, 8),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
