@@ -46,7 +46,7 @@ class DashboardController extends Controller
         $user = new UserResource($user);
 
         return Inertia::render(
-            'Dashboard',
+            'dashboard',
             compact(
                 'totalPendingTasks',
                 'myPendingTasks',
