@@ -11,19 +11,29 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UpvoteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-Route::redirect('/', '/dashboard');
+Route::get('/', function () {
+    return Inertia::render('welcome');
+})->name('home');
 
-Route::middleware(['auth', 'verified', sprintf(
-    'role:%s|%s|%s|$s',
-    RolesEnum::ProjectManager->value,
-    RolesEnum::TeamLeader->value,
-    RolesEnum::Admin->value,
-    RolesEnum::TeamMember->value
-)])->group(function () {
+Route::middleware([
+    'auth',
+    'verified',
+    sprintf(
+        'role:%s|%s|%s|$s',
+        RolesEnum::ProjectManager->value,
+        RolesEnum::TeamLeader->value,
+        RolesEnum::Admin->value,
+        RolesEnum::TeamMember->value
+    )
+])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
+    // Route::get('dashboard', function () {
+    //     return Inertia::render('dashboard');
+    // })->name('dashboard');
 
     Route::middleware(sprintf(
         'role:%s|%s|%s',
