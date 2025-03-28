@@ -52,7 +52,6 @@ class DatabaseSeeder extends Seeder
             'name' => PermissionsEnum::EditTasks->value,
         ]);
 
-
         /**
          * Create Permissions  
          */
@@ -75,7 +74,6 @@ class DatabaseSeeder extends Seeder
         $createTasksPermission = Permission::create([
             'name' => PermissionsEnum::CreateTasks->value,
         ]);
-
 
         /**
          * Delete Permissions  
@@ -108,7 +106,6 @@ class DatabaseSeeder extends Seeder
             'name' => PermissionsEnum::UpvoteDownvote->value,
         ]);
 
-
         $teamMemberRole->syncPermissions([
             $createPostsPermission,
             $editPostsPermission,
@@ -127,7 +124,6 @@ class DatabaseSeeder extends Seeder
             $editPostsPermission,
             $editUsersPermission,
         ]);
-
 
         $projectManagerRole->syncPermissions([
             $UpvoteDownvotePermission,
@@ -160,7 +156,6 @@ class DatabaseSeeder extends Seeder
             $deleteProjectsPermission,
             $deleteTasksPermission,
         ]);
-
 
         User::factory()->create([
             'id' => 1,
@@ -201,6 +196,7 @@ class DatabaseSeeder extends Seeder
         User::factory(15)->create()->each(function ($user) use ($teamLeaderRole) {
             $user->assignRole($teamLeaderRole);
         });
+
         // User::factory()->create([
         //     'id' => 25,
         //     'name' => 'Mahmoud',
@@ -209,6 +205,7 @@ class DatabaseSeeder extends Seeder
         //     'role' => RolesEnum::TeamMember->value,
         //     'email_verified_at' => now()
         // ])->assignRole($teamMemberRole);
+
         Team::factory(20)->create();
 
         User::factory(60)->create([
@@ -218,12 +215,73 @@ class DatabaseSeeder extends Seeder
             $user->assignRole($teamMemberRole);
         });
 
+        // Project::factory(30)->create()->each(function ($project) {
+        //     $project->tasks()->createMany(
+        //         Task::factory(30)->make()->toArray()
+        //     );
+        // });
 
-        Project::factory(30)->create()->each(function ($project) {
-            $project->tasks()->createMany(
-                Task::factory(30)->make()->toArray()
-            );
+        Project::factory(30)->create();
+
+        // Project::all()->each(function ($project) {
+        //     Task::factory(5)->create([
+        //         'project_id' => $project->id,
+        //         'assigned_team_leader_id' => fake()->numberBetween(9, 24),
+        //         'assigned_team_member_id' => null,
+        //         'parent_id' => null
+        //     ]);
+        //     Task::factory(25)->create([
+        //         'project_id' => $project->id,
+        //         'assigned_team_leader_id' => null,
+        //         'assigned_team_member_id' => fake()->numberBetween(25, 59),
+        //         'parent_id' => fake()->optional()->numberBetween(1, 5)
+        //     ]);
+        // });
+
+        Project::all()->each(function ($project) {
+            // Get 5 unique team leaders
+            $teamLeaders = User::role(RolesEnum::TeamLeader->value)
+                ->inRandomOrder()
+                ->take(5)
+                ->pluck('id');
+
+            // Get 25 unique team members
+            $teamMembers = User::role(RolesEnum::TeamMember->value)
+                ->inRandomOrder()
+                ->take(25)
+                ->pluck('id');
+
+            // Create 5 Team Leader Tasks
+            $teamLeaderTasks = collect();
+            $teamLeaders->each(function ($teamLeaderId) use ($project, &$teamLeaderTasks) {
+                $task = Task::factory()->create([
+                    'project_id' => $project->id,
+                    'assigned_team_leader_id' => $teamLeaderId,
+                    'parent_id' => null,
+                    'assigned_team_member_id' => null
+                ]);
+                $teamLeaderTasks->push($task);
+            });
+
+            // Create 25 Team Member Tasks
+            $teamMembers->each(function ($teamMemberId) use ($project, $teamLeaderTasks) {
+                Task::factory()->create([
+                    'project_id' => $project->id,
+                    'assigned_team_member_id' => $teamMemberId,
+                    'assigned_team_leader_id' => null,
+                    'parent_id' => $teamLeaderTasks->isNotEmpty() ? $teamLeaderTasks->random()->id : null,
+                ]);
+            });
         });
+
+        // Project::all()->each(function ($project) {
+        //     Task::factory(25)->create([
+        //         'project_id' => $project->id,
+        //         'assigned_team_leader_id' => null,
+        //         'assigned_team_member_id' => fake()->numberBetween(25, 59),
+        //         'parent_id' => fake()->optional()->numberBetween(1, 5)
+        //     ]);
+        // });
 
         Project::all()->each(function ($project) {
             $teams = Team::inRandomOrder()->take(rand(1, 20))->get();
