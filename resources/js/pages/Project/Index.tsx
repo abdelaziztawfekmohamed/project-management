@@ -9,6 +9,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/project',
     },
 ];
+
 const Index = () => {
     const button = <button className="h-8 rounded-3xl bg-green-300 px-5 font-bold text-white shadow-none dark:bg-green-500">Create Project</button>;
     return (

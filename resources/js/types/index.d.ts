@@ -1,4 +1,9 @@
 import { LucideIcon } from 'lucide-react';
+/*
+ ** I need to import the same type but for @react-icons library
+ */
+import { IconType } from 'react-icons';
+
 import type { Config } from 'ziggy-js';
 
 export interface Auth {
@@ -18,7 +23,7 @@ export interface NavGroup {
 export interface NavItem {
     title: string;
     href: string;
-    icon?: LucideIcon | null;
+    icon?: LucideIcon | IconType | null;
     isActive?: boolean;
 }
 
