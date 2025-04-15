@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserRepository implements UserInterface
 {
-    public function getAllUsers()
+    public function getAllUsers($user)
     {
-        if (Auth::user()->roles->contains('name', RolesEnum::Admin->value)) {
+        if ($user->hasRole(RolesEnum::Admin->value)) {
             return User::query();
         }
-        if (Auth::user()->roles->contains('name', RolesEnum::ProjectManager->value)) {
+        if ($user->hasRole([RolesEnum::ProjectManager->value]) || $user->hasRole([RolesEnum::TeamLeader->value])) {
 
-            $managedProjectIds = Project::where('assigned_project_manager_id', Auth::user()->id)->pluck('id');
+            $managedProjectIds = Project::where('assigned_project_manager_id', $user->id)->pluck('id');
             $teamIds = ProjectTeam::whereIn('project_id', $managedProjectIds)->pluck('team_id');
             // dd($teamIds);
             $teamMembers = User::whereIn('team_id', $teamIds);
@@ -32,7 +32,8 @@ class UserRepository implements UserInterface
 
     public function getAllUsersForTasks()
     {
-        return User::query()->orderBy("name", "asc")->get();
+        return User::query()
+            ->orderBy("name", "asc")->get();
     }
 
     public function getUserTasks($user)
@@ -42,8 +43,8 @@ class UserRepository implements UserInterface
 
     public function getPaginatedResults($query, $sortField, $sortDirection)
     {
-        $filteredQuery = $query->orderBy($sortField, $sortDirection)
-            ->paginate(10);
+        $filteredQuery = $query
+            ->orderBy($sortField, $sortDirection)->paginate(10);
 
         return $filteredQuery;
     }

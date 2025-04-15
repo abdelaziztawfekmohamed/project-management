@@ -8,9 +8,10 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\TaskResource;
-use App\Models\ProjectTeam;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\ProjectService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -19,27 +20,32 @@ use Inertia\Inertia;
 class ProjectController extends Controller
 {
     protected $projectService;
+    protected $userService;
 
-    public function __construct(ProjectService $projectService)
+    public function __construct(ProjectService $projectService, UserService $userService)
     {
         $this->projectService = $projectService;
+        $this->userService = $userService;
     }
 
     public function index(Request $request)
     {
-        // dd(Auth::user()->hasRole(RolesEnum::Admin->value));
-        // if ($request->user()->cannot('view', Project::class)) {
-        //     abort(403);
-        // };
         Gate::authorize('viewAny', Project::class);
+
+        $user = Auth::user();
 
         [$filters, $sortField, $sortDirection] = $this->extractQueryParams($request);
 
-        $projects = $this->projectService->getProjects($filters, $sortField, $sortDirection);
+        $projects = $this->projectService->getProjects($filters, $sortField, $sortDirection, $user)->appends($request->query());
+
+        // dd(Auth::user()->hasRole(RolesEnum::Admin->value));
+        // dd($this->userService->getAllUsers());
+        $users = $this->userService->getAllUsers()->get();
 
         return Inertia::render("Project/Index", [
             "projects" => ProjectResource::collection($projects),
             'queryParams' => $request->query() ?: null,
+            'users' => UserResource::collection($users),
             'success' => session('success'),
         ]);
     }
@@ -146,13 +152,23 @@ class ProjectController extends Controller
     {
         Gate::authorize('delete', $project);
 
-        $page = $request->input('page');
+        $page = $request->input('page', 1);
+        $sort_field = $request->input('sort_field') ?? null;
+        $sort_direction = $request->input('sort_direction') ?? null;
+        $status = $request->input('status') ?? null;
+        $name = $request->input('name') ?? null;
+        $assignees = $request->input('assignees') ?? null;
         // dd($page);
         // dd($request);
         $project->delete();
 
         return to_route('project.index', [
-            'page' => $page
+            'page' => $page,
+            'sort_field' => $sort_field,
+            'sort_direction' => $sort_direction,
+            'name' => $name,
+            'status' => $status,
+            'assignees' => $assignees,
         ])
             ->with('success', 'Project deleted successfully.');
     }

@@ -4,8 +4,12 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookCheck, BookOpen, Folder, LayoutGrid, Users } from 'lucide-react';
+import { FaTasks } from 'react-icons/fa';
 import { GoProjectSymlink } from 'react-icons/go';
+import { PiMicrosoftTeamsLogoLight } from 'react-icons/pi';
+import { RiUserCommunityLine } from 'react-icons/ri';
+
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -18,6 +22,31 @@ const mainNavItems: NavItem[] = [
         title: 'Projects',
         href: '/project',
         icon: GoProjectSymlink,
+    },
+    {
+        title: 'Tasks',
+        href: '/task',
+        icon: BookCheck,
+    },
+    {
+        title: 'My Tasks',
+        href: '/task/my-tasks',
+        icon: FaTasks,
+    },
+    {
+        title: 'Members',
+        href: '/user',
+        icon: Users,
+    },
+    {
+        title: 'Teams',
+        href: '/team',
+        icon: PiMicrosoftTeamsLogoLight,
+    },
+    {
+        title: 'Community',
+        href: '/post',
+        icon: RiUserCommunityLine,
     },
 ];
 
@@ -40,8 +69,12 @@ export function AppSidebar() {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                        <SidebarMenuButton
+                            size="lg"
+                            asChild
+                            className="mb-3 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0"
+                        >
+                            <Link href="/dashboard" className="flex h-full w-full items-center justify-center" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

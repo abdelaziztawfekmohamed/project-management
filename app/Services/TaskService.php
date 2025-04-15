@@ -16,17 +16,29 @@ class TaskService
         $this->taskInterface = $taskInterface;
     }
 
-    public function getTasks($filters, $sortField, $sortDirection): LengthAwarePaginator
+    public function getTasks($user, $filters, $sortField, $sortDirection): LengthAwarePaginator
     {
-        $query = $this->taskInterface->getAllTasks();
+        $query = $this->taskInterface->getAllTasks($user);
+        // dd($query->pluck('name'));
         // $orderedQuery = $query->orderBy('id');
 
 
         if (isset($filters['name'])) {
             $query = $this->taskInterface->filterByName($query, $filters['name']);
         }
-        if (isset($filters['status'])) {
-            $query = $this->taskInterface->filterByStatus($query, $filters['status']);
+        if (isset($filters['statuses'])) {
+            $query = $this->taskInterface->filterByStatuses($query, $filters['statuses']);
+        }
+        if (isset($filters['priorities'])) {
+            // dd($filters['priorities']);
+            $query = $this->taskInterface->filterByPriorities($query, $filters['priorities']);
+        }
+        if (isset($filters['projects'])) {
+            // dd($filters['projects']);
+            $query = $this->taskInterface->filterByProjects($query, $filters['projects']);
+        }
+        if (isset($filters['assignees'])) {
+            $query = $this->taskInterface->filterByAssignees($query, $filters['assignees']);
         }
 
         return $this->taskInterface->getPaginatedResults($query, $sortField, $sortDirection);
@@ -39,7 +51,7 @@ class TaskService
             $query = $this->taskInterface->filterByName($query, $filters['name']);
         }
         if (isset($filters['status'])) {
-            $query = $this->taskInterface->filterByStatus($query, $filters['status']);
+            $query = $this->taskInterface->filterByStatuses($query, $filters['statuses']);
         }
 
         return $this->taskInterface->getAuthUserPaginatedResults($query, $sortField, $sortDirection);

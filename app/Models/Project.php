@@ -47,7 +47,7 @@ class Project extends Model
         return $this->belongsToMany(Team::class, 'project_team', 'project_id', 'team_id', 'id', 'id')->using(ProjectTeam::class);
     }
 
-    public function projectManager(): BelongsTo
+    public function assignedProjectManager(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_project_manager_id');
     }

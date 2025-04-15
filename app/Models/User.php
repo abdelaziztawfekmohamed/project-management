@@ -7,16 +7,18 @@ namespace App\Models;
 use App\Enum\RolesEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable  implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
+    protected $with = ['roles'];
     /**
      * The attributes that are mass assignable.
      *
@@ -54,25 +56,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
-    }
-
-    public function isTeamMember()
-    {
-        return $this->role === RolesEnum::TeamMember->value;
-    }
-
-    public function isTeamLeader()
-    {
-        return $this->role === RolesEnum::TeamLeader->value;
-    }
-
-    public function isProjectManager()
-    {
-        return $this->role === RolesEnum::ProjectManager->value;
-    }
-
-    public function isAdmin()
-    {
-        return $this->role === RolesEnum::Admin->value;
     }
 }

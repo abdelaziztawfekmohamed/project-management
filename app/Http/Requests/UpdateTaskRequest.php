@@ -24,14 +24,14 @@ class UpdateTaskRequest extends FormRequest
     {
         return [
             "name" => ['required', 'max:255'],
-            'image' => ['nullable', 'image'],
             "description" => ['nullable', 'string'],
             'due_date' => ['nullable', 'date'],
             'project_id' => ['required', 'exists:projects,id'],
-            'assigned_team_leader_id' => ['required', 'exists:users,id'],
+            'assigned_team_leader_id' => ['nullable'],
+            'assigned_team_member_id' => ['nullable'],
             'status' => [
                 'required',
-                Rule::in(['pending', 'in_progress', 'completed'])
+                Rule::in(['todo', 'in_progress', 'in_review', 'done'])
             ],
             'priority' => [
                 'required',

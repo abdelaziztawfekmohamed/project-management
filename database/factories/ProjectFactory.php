@@ -21,7 +21,7 @@ class ProjectFactory extends Factory
             'name' => fake()->sentence(6),
             'description' => fake()->realText(),
             'due_date' => fake()->dateTimeBetween('now', '+1 year'),
-            'status' => fake()->randomElement(['pending', 'in_progress', 'completed']),
+            'status' => fake()->randomElement(['todo', 'in_progress', 'in_review', 'done']),
             'assigned_project_manager_id' => fake()->numberBetween(3, 8),
             'created_by' => fake()->randomElement([1, 2]),
             'updated_by' => fake()->numberBetween(3, 8),

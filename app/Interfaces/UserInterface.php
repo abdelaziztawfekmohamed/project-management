@@ -4,7 +4,7 @@ namespace App\Interfaces;
 
 interface UserInterface
 {
-    public function getAllUsers();
+    public function getAllUsers($user);
     public function getAllUsersForTasks();
     public function getUserTasks($project);
     public function getPaginatedResults($query, $sortField, $sortDirection);

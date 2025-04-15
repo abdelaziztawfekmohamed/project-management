@@ -61,36 +61,39 @@ class TaskPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user, Task $task): bool
+    public function create(User $user): bool
     {
-        // Admins can create any task
-        if ($user->hasRole(RolesEnum::Admin->value)) {
-            return true;
-        }
+        // // Admins can create any task
+        // if ($user->hasRole(RolesEnum::Admin->value)) {
+        //     return true;
+        // }
 
-        // Project Managers can create tasks in their assigned projects
-        if ($user->hasRole(RolesEnum::ProjectManager->value)) {
-            return $task->project->assigned_project_manager_id === $user->id;
-        }
+        // // Project Managers can create tasks in their assigned projects
+        // if ($user->hasRole(RolesEnum::ProjectManager->value)) {
+        //     return $task->project->assigned_project_manager_id === $user->id;
+        // }
 
-        // Team Leaders can create tasks in their team's projects
-        if ($user->hasRole(RolesEnum::TeamLeader->value)) {
-            $teamsIds = Team::where('assigned_team_leader_id', $user->id)->pluck('id');
-            // dd($teamsIds);
+        // // Team Leaders can create tasks in their team's projects
+        // if ($user->hasRole(RolesEnum::TeamLeader->value)) {
+        //     $teamsIds = Team::where('assigned_team_leader_id', $user->id)->pluck('id');
+        //     // dd($teamsIds);
 
-            $projectsIds = ProjectTeam::whereIn('team_id', $teamsIds)->pluck('project_id');
-            // dd($projectsIds);
+        //     $projectsIds = ProjectTeam::whereIn('team_id', $teamsIds)->pluck('project_id');
+        //     // dd($projectsIds);
 
-            $tasksIds = Task::whereIn('project_id', $projectsIds)->pluck('id');
-            // dd($tasksIds);
-            foreach ($tasksIds as $taskId) {
-                if ($taskId == $task->id) {
-                    return true;
-                }
-            }
-        }
+        //     $tasksIds = Task::whereIn('project_id', $projectsIds)->pluck('id');
+        //     // dd($tasksIds);
+        //     foreach ($tasksIds as $taskId) {
+        //         if ($taskId == $task->id) {
+        //             return true;
+        //         }
+        //     }
+        // }
 
-        return false;
+        // return false;
+        return $user->hasRole(RolesEnum::Admin->value) ||
+            $user->hasRole(RolesEnum::ProjectManager->value) ||
+            $user->hasRole(RolesEnum::TeamLeader->value);
     }
 
     /**

@@ -10,7 +10,11 @@ abstract class Controller
     {
         $filters = [
             'name' => $request->input('name') ?: null,
-            'status' => $request->input('status') ?: null,
+            'email' => $request->input('email') ?: null,
+            'statuses' => $request->input('statuses') ?: null,
+            'priorities' => $request->input('priorities') ?: null,
+            'projects' => $request->input('projects') ?: null,
+            'assignees' => $request->input('assignees') ?: null,
         ];
 
         $sortField = $request->input('sort_field', 'id');

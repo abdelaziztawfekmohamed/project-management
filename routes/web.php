@@ -87,7 +87,7 @@ Route::middleware([
             ->name('project.show');
     });
 
-    Route::middleware('role' . RolesEnum::Admin->value)->group(function () {
+    Route::middleware('role:' . RolesEnum::Admin->value)->group(function () {
         Route::get('/project/create', [ProjectController::class, 'create'])
             ->name('project.create');
 

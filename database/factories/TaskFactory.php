@@ -43,7 +43,7 @@ class TaskFactory extends Factory
         return [
             'name' => fake()->sentence(6),
             'description' => fake()->realText(),
-            'status' => fake()->randomElement(['pending', 'in_progress', 'completed']),
+            'status' => fake()->randomElement(['todo', 'in_progress', 'in_review', 'done']),
             'priority' => fake()->randomElement(['low', 'medium', 'high']),
             'due_date' => fake()->dateTimeBetween('now', '+1 year'),
             // 'assigned_team_leader_id' => $teamLeaderId,

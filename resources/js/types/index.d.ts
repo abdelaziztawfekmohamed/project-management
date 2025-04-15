@@ -35,13 +35,34 @@ export interface SharedData {
     [key: string]: unknown;
 }
 
+export interface AuthUser {
+    id: number;
+    name: string;
+    email: string;
+    avatar?: string;
+    email_verified_at: string | null;
+    permissions: string[];
+    roles: Role[];
+    created_at: string;
+    updated_at: string;
+    [key: string]: unknown; // This allows for additional properties...
+}
+
 export interface User {
     id: number;
     name: string;
     email: string;
     avatar?: string;
     email_verified_at: string | null;
+    permissions: string[];
+    roles: string[];
     created_at: string;
     updated_at: string;
+    role: string;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Users {
+    data: User[];
+    meta: Meta;
 }

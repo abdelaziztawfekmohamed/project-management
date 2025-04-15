@@ -23,13 +23,41 @@ class TaskResource extends JsonResource
             'due_date' => Carbon::parse($this->due_date)->format('Y-m-d'),
             'status' => $this->status,
             'priority' => $this->priority,
-            // 'image_path' => $this->image_path,
-            'project' => new ProjectResource($this->project),
-            'assigned_team_leader' => $this->assigned_team_leader_id ? new UserResource($this->assignedTeamLeader) : null,
-            'assigned_team_member' => $this->assigned_team_member_id ? new UserResource($this->assignedTeamMember) : null,
-            // 'assigned_user' => new UserResource($this->assignedUser),
-            'created_by' => new UserResource($this->createdBy),
-            'updated_by' => new UserResource($this->updatedBy),
+            // 'project' => new ProjectResource($this->project),
+            'project' => $this->project_id ? [
+                'id' => $this->project_id,
+                'name' => $this->project->name,
+            ] : null,
+            // 'assigned_team_leader' => $this->assigned_team_leader_id ? new UserResource($this->assignedTeamLeader) : null,
+            // 'assigned_team_member' => $this->assigned_team_member_id ? new UserResource($this->assignedTeamMember) : null,
+            'assigned_team_leader' => $this->assigned_team_leader_id ? [
+                'id' => $this->assignedTeamLeader->id,
+                'name' => $this->assignedTeamLeader->name,
+            ] : null,
+            'assigned_team_member' => $this->assigned_team_member_id ? [
+                'id' => $this->assignedTeamMember->id,
+                'name' => $this->assignedTeamMember->name,
+            ] : null,
+            // 'created_by' => new UserResource($this->createdBy),
+            // 'updated_by' => new UserResource($this->updatedBy),
+            'created_by' => [
+                // 'id' => $this->createdBy->id,
+                'name' => $this->createdBy->name,
+            ],
+            'updated_by' => [
+                // 'id' => $this->updatedBy->id,
+                'name' => $this->updatedBy->name,
+            ],
+            // 'parent_task' => $this->parent_id ? new TaskResource($this->parentTask) : null,
+            // 'child_tasks' => $this->childTasks ? TaskResource::collection($this->childTasks) : null,
+            'parent_task' => $this->parent_id ? [
+                // 'id' => $this->parentTask->id,
+                'name' => $this->parentTask->name,
+            ] : null,
+            'child_tasks' => $this->childTasks->isNotEmpty() ? $this->childTasks->map(fn($task) => [
+                // 'id' => $task->id,
+                'name' => $task->name,
+            ]) : null,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
         ];
     }

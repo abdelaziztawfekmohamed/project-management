@@ -13,7 +13,7 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], button }:
     return (
         <AppShell variant="sidebar">
             <AppSidebar />
-            <AppContent variant="sidebar">
+            <AppContent variant="sidebar" className="overflow-auto">
                 <AppSidebarHeader breadcrumbs={breadcrumbs} button={button} />
                 {children}
             </AppContent>

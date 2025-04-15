@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Team;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,16 +25,18 @@ class UserController extends Controller
     public function index(Request $request)
     {
         Gate::authorize('viewAny', User::class);
-
+        $user = Auth::user();
+        // dd(Team::with('teamMembers')->get());
+        // dd(User::where('id', 76)->with('team')->get());
         [$filters, $sortField, $sortDirection] = $this->extractQueryParams($request);
 
-        $users = $this->userService->getUsers($filters, $sortField, $sortDirection);
+        $users = $this->userService->getUsers($user, $filters, $sortField, $sortDirection);
 
         return Inertia::render("User/Index", [
             "users" => UserResource::collection($users),
             'queryParams' => $request->query() ?: null,
             'success' => session('success'),
-            'authUser'  => new UserResource($this->userService->getTheAuthUser(Auth::user())),
+            'authUser'  => new UserResource($this->userService->getTheAuthUser($user)),
         ]);
     }
 

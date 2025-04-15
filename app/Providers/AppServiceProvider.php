@@ -19,6 +19,7 @@ use App\Policies\TaskPolicy;
 use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\PostRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 
 use Illuminate\Support\ServiceProvider;
@@ -42,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
-
+        Model::automaticallyEagerLoadRelationships();
         Gate::policy(Project::class, ProjectPolicy::class);
         Gate::policy(Task::class, TaskPolicy::class);
         Gate::policy(Comment::class, CommentPolicy::class);

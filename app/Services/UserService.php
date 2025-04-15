@@ -21,6 +21,11 @@ class UserService
         return $this->userInterface->getAllUsersForTasks();
     }
 
+    public function getAllUsers()
+    {
+        return $this->userInterface->getAllUsers(Auth::user());
+    }
+
     public function getTheAuthUser()
     {
         return Auth::user();
@@ -31,9 +36,9 @@ class UserService
         return $user->getAllPermissions()->pluck('name');
     }
 
-    public function getUsers($filters, $sortField, $sortDirection): LengthAwarePaginator
+    public function getUsers($user, $filters, $sortField, $sortDirection): LengthAwarePaginator
     {
-        $query = $this->userInterface->getAllUsers();
+        $query = $this->userInterface->getAllUsers($user);
 
         if (isset($filters['name'])) {
             $query = $this->userInterface->filterByName($query, $filters['name']);
