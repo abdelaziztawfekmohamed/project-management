@@ -11,7 +11,7 @@ import { DialogClose } from '@radix-ui/react-dialog';
 import { SelectLabel } from '@radix-ui/react-select';
 import { FormEventHandler, useEffect } from 'react';
 
-import { Priority, Status } from '@/constants';
+import { Priority, TaskStatus } from '@/constants';
 import { QueryParams } from '@/types/queryParams';
 import { toast } from 'sonner';
 import InputError from './input-error';
@@ -190,13 +190,19 @@ export function EditTaskModal({ task, projects, users, open, onOpenChange, page,
                                     Status
                                 </Label>
 
-                                <Select name="task_status" value={data.status} onValueChange={(value) => setData('status', value as keyof Status)}>
+                                <Select
+                                    name="task_status"
+                                    value={data.status}
+                                    onValueChange={(value) => setData('status', value as keyof TaskStatus)}
+                                >
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Select Status" />
                                     </SelectTrigger>
                                     <SelectContent className="max-h-70 w-75 overflow-auto sm:w-fit lg:w-fit">
                                         <SelectGroup>
                                             <SelectLabel>Task Status</SelectLabel>
+
+                                            <SelectItem value="backlog">Backlog</SelectItem>
                                             <SelectItem value="todo">Todo</SelectItem>
                                             <SelectItem value="in_progress">In Progress</SelectItem>
                                             <SelectItem value="in_review">In Review</SelectItem>

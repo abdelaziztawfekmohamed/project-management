@@ -9,7 +9,7 @@ import { DialogClose } from '@radix-ui/react-dialog';
 import { SelectLabel } from '@radix-ui/react-select';
 import { FormEventHandler, useEffect } from 'react';
 
-import { Status } from '@/constants';
+import { ProjectStatus } from '@/constants';
 import { QueryParams } from '@/types/queryParams';
 import { toast } from 'sonner';
 import InputError from './input-error';
@@ -149,13 +149,18 @@ export function EditProjectModal({ project, users, open, onOpenChange, page, que
                                     Status
                                 </Label>
 
-                                <Select name="project_status" value={data.status} onValueChange={(value) => setData('status', value as keyof Status)}>
+                                <Select
+                                    name="project_status"
+                                    value={data.status}
+                                    onValueChange={(value) => setData('status', value as keyof ProjectStatus)}
+                                >
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Select Status" />
                                     </SelectTrigger>
                                     <SelectContent className="max-h-70 w-75 overflow-auto sm:w-fit lg:w-fit">
                                         <SelectGroup>
                                             <SelectLabel>Project Status</SelectLabel>
+
                                             <SelectItem value="todo">Todo</SelectItem>
                                             <SelectItem value="in_progress">In Progress</SelectItem>
                                             <SelectItem value="in_review">In Review</SelectItem>
