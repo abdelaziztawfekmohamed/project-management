@@ -135,6 +135,7 @@ export function CreateProjectModal({ users, open, onOpenChange, page, queryParam
                                     <SelectContent className="max-h-70 w-75 overflow-auto sm:w-fit lg:w-fit">
                                         <SelectGroup>
                                             <SelectLabel>Project Status</SelectLabel>
+
                                             <SelectItem value="todo">Todo</SelectItem>
                                             <SelectItem value="in_progress">In Progress</SelectItem>
                                             <SelectItem value="in_review">In Review</SelectItem>
