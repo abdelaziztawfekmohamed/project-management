@@ -43,9 +43,9 @@ class TaskFactory extends Factory
         return [
             'name' => fake()->sentence(6),
             'description' => fake()->realText(),
-            'status' => fake()->randomElement(['todo', 'in_progress', 'in_review', 'done']),
+            'status' => fake()->randomElement(['backlog', 'todo', 'in_progress', 'in_review', 'done']),
             'priority' => fake()->randomElement(['low', 'medium', 'high']),
-            'due_date' => fake()->dateTimeBetween('now', '+1 year'),
+            'due_date' => fake()->dateTimeBetween('+1 week', '+7 months'),
             // 'assigned_team_leader_id' => $teamLeaderId,
             'assigned_team_leader_id' => fake()->numberBetween(9, 24),
             // 'assigned_team_member_id' => $teamMemberId,
@@ -53,7 +53,7 @@ class TaskFactory extends Factory
             // 'parent_id' => $parentId,
             'created_by' => fake()->numberBetween(1, 24),
             'updated_by' => fake()->numberBetween(3, 24),
-            'created_at' => now(),
+            'created_at' => fake()->dateTimeBetween('-5 months', 'now'),
             'updated_at' => now(),
         ];
     }
