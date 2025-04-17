@@ -31,7 +31,7 @@ class UpdateTaskRequest extends FormRequest
             'assigned_team_member_id' => ['nullable'],
             'status' => [
                 'required',
-                Rule::in(['todo', 'in_progress', 'in_review', 'done'])
+                Rule::in(['backlog', 'todo', 'in_progress', 'in_review', 'done'])
             ],
             'priority' => [
                 'required',
