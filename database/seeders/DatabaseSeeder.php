@@ -29,133 +29,133 @@ class DatabaseSeeder extends Seeder
         $projectManagerRole = Role::create(['name' => RolesEnum::ProjectManager->value]);
         $adminRole = Role::create(['name' => RolesEnum::Admin->value]);
 
-        /**
-         * Edit Permissions  
-         */
-        $editUsersPermission = Permission::create([
-            'name' => PermissionsEnum::EditUsers->value,
-        ]);
+        // /**
+        //  * Edit Permissions  
+        //  */
+        // $editUsersPermission = Permission::create([
+        //     'name' => PermissionsEnum::EditUsers->value,
+        // ]);
 
-        $editPostsPermission = Permission::create([
-            'name' => PermissionsEnum::EditPosts->value,
-        ]);
+        // $editPostsPermission = Permission::create([
+        //     'name' => PermissionsEnum::EditPosts->value,
+        // ]);
 
-        $editCommentsPermission = Permission::create([
-            'name' => PermissionsEnum::EditComments->value,
-        ]);
+        // $editCommentsPermission = Permission::create([
+        //     'name' => PermissionsEnum::EditComments->value,
+        // ]);
 
-        $editProjectsPermission = Permission::create([
-            'name' => PermissionsEnum::EditProjects->value,
-        ]);
+        // $editProjectsPermission = Permission::create([
+        //     'name' => PermissionsEnum::EditProjects->value,
+        // ]);
 
-        $editTasksPermission = Permission::create([
-            'name' => PermissionsEnum::EditTasks->value,
-        ]);
+        // $editTasksPermission = Permission::create([
+        //     'name' => PermissionsEnum::EditTasks->value,
+        // ]);
 
-        /**
-         * Create Permissions  
-         */
-        $createUsersPermission = Permission::create([
-            'name' => PermissionsEnum::CreateUsers->value,
-        ]);
+        // /**
+        //  * Create Permissions  
+        //  */
+        // $createUsersPermission = Permission::create([
+        //     'name' => PermissionsEnum::CreateUsers->value,
+        // ]);
 
-        $createPostsPermission = Permission::create([
-            'name' => PermissionsEnum::CreatePosts->value,
-        ]);
+        // $createPostsPermission = Permission::create([
+        //     'name' => PermissionsEnum::CreatePosts->value,
+        // ]);
 
-        $createCommentsPermission = Permission::create([
-            'name' => PermissionsEnum::CreateComments->value,
-        ]);
+        // $createCommentsPermission = Permission::create([
+        //     'name' => PermissionsEnum::CreateComments->value,
+        // ]);
 
-        $createProjectsPermission = Permission::create([
-            'name' => PermissionsEnum::CreateProjects->value,
-        ]);
+        // $createProjectsPermission = Permission::create([
+        //     'name' => PermissionsEnum::CreateProjects->value,
+        // ]);
 
-        $createTasksPermission = Permission::create([
-            'name' => PermissionsEnum::CreateTasks->value,
-        ]);
+        // $createTasksPermission = Permission::create([
+        //     'name' => PermissionsEnum::CreateTasks->value,
+        // ]);
 
-        /**
-         * Delete Permissions  
-         */
-        $deleteUsersPermission = Permission::create([
-            'name' => PermissionsEnum::DeleteUsers->value,
-        ]);
+        // /**
+        //  * Delete Permissions  
+        //  */
+        // $deleteUsersPermission = Permission::create([
+        //     'name' => PermissionsEnum::DeleteUsers->value,
+        // ]);
 
-        $deletePostsPermission = Permission::create([
-            'name' => PermissionsEnum::DeletePosts->value,
-        ]);
+        // $deletePostsPermission = Permission::create([
+        //     'name' => PermissionsEnum::DeletePosts->value,
+        // ]);
 
-        $deleteCommentsPermission = Permission::create([
-            'name' => PermissionsEnum::DeleteComments->value,
-        ]);
+        // $deleteCommentsPermission = Permission::create([
+        //     'name' => PermissionsEnum::DeleteComments->value,
+        // ]);
 
-        $deleteProjectsPermission = Permission::create([
-            'name' => PermissionsEnum::DeleteProjects->value,
-        ]);
+        // $deleteProjectsPermission = Permission::create([
+        //     'name' => PermissionsEnum::DeleteProjects->value,
+        // ]);
 
-        $deleteTasksPermission = Permission::create([
-            'name' => PermissionsEnum::DeleteTasks->value,
-        ]);
+        // $deleteTasksPermission = Permission::create([
+        //     'name' => PermissionsEnum::DeleteTasks->value,
+        // ]);
 
-        /**
-         * Upvote Downvote Permissions  
-         */
+        // /**
+        //  * Upvote Downvote Permissions  
+        //  */
 
-        $UpvoteDownvotePermission = Permission::create([
-            'name' => PermissionsEnum::UpvoteDownvote->value,
-        ]);
+        // $UpvoteDownvotePermission = Permission::create([
+        //     'name' => PermissionsEnum::UpvoteDownvote->value,
+        // ]);
 
-        $teamMemberRole->syncPermissions([
-            $createPostsPermission,
-            $editPostsPermission,
-            $createCommentsPermission,
-            $editCommentsPermission,
-            $UpvoteDownvotePermission
-        ]);
+        // $teamMemberRole->syncPermissions([
+        //     $createPostsPermission,
+        //     $editPostsPermission,
+        //     $createCommentsPermission,
+        //     $editCommentsPermission,
+        //     $UpvoteDownvotePermission
+        // ]);
 
-        $teamLeaderRole->syncPermissions([
-            $UpvoteDownvotePermission,
-            $createTasksPermission,
-            $editTasksPermission,
-            $createCommentsPermission,
-            $editCommentsPermission,
-            $createPostsPermission,
-            $editPostsPermission,
-            $editUsersPermission,
-        ]);
+        // $teamLeaderRole->syncPermissions([
+        //     $UpvoteDownvotePermission,
+        //     $createTasksPermission,
+        //     $editTasksPermission,
+        //     $createCommentsPermission,
+        //     $editCommentsPermission,
+        //     $createPostsPermission,
+        //     $editPostsPermission,
+        //     $editUsersPermission,
+        // ]);
 
-        $projectManagerRole->syncPermissions([
-            $UpvoteDownvotePermission,
-            $createTasksPermission,
-            $editTasksPermission,
-            $createCommentsPermission,
-            $editCommentsPermission,
-            $createPostsPermission,
-            $editPostsPermission,
-            $createProjectsPermission,
-            $editProjectsPermission,
-            $editUsersPermission,
-        ]);
+        // $projectManagerRole->syncPermissions([
+        //     $UpvoteDownvotePermission,
+        //     $createTasksPermission,
+        //     $editTasksPermission,
+        //     $createCommentsPermission,
+        //     $editCommentsPermission,
+        //     $createPostsPermission,
+        //     $editPostsPermission,
+        //     $createProjectsPermission,
+        //     $editProjectsPermission,
+        //     $editUsersPermission,
+        // ]);
 
-        $adminRole->syncPermissions([
-            $UpvoteDownvotePermission,
-            $createTasksPermission,
-            $editTasksPermission,
-            $createCommentsPermission,
-            $editCommentsPermission,
-            $createPostsPermission,
-            $editPostsPermission,
-            $createProjectsPermission,
-            $editProjectsPermission,
-            $createUsersPermission,
-            $editUsersPermission,
-            $deleteUsersPermission,
-            $deletePostsPermission,
-            $deleteCommentsPermission,
-            $deleteProjectsPermission,
-            $deleteTasksPermission,
-        ]);
+        // $adminRole->syncPermissions([
+        //     $UpvoteDownvotePermission,
+        //     $createTasksPermission,
+        //     $editTasksPermission,
+        //     $createCommentsPermission,
+        //     $editCommentsPermission,
+        //     $createPostsPermission,
+        //     $editPostsPermission,
+        //     $createProjectsPermission,
+        //     $editProjectsPermission,
+        //     $createUsersPermission,
+        //     $editUsersPermission,
+        //     $deleteUsersPermission,
+        //     $deletePostsPermission,
+        //     $deleteCommentsPermission,
+        //     $deleteProjectsPermission,
+        //     $deleteTasksPermission,
+        // ]);
 
         User::factory()->create([
             'id' => 1,
@@ -193,8 +193,15 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now()
         ])->assignRole($teamLeaderRole);
 
+        Team::factory()->create([
+            'team_leader_id' => 9
+        ]);
+
         User::factory(15)->create()->each(function ($user) use ($teamLeaderRole) {
             $user->assignRole($teamLeaderRole);
+            Team::factory()->create([
+                'team_leader_id' => $user->id
+            ]);
         });
 
         // User::factory()->create([
@@ -206,7 +213,7 @@ class DatabaseSeeder extends Seeder
         //     'email_verified_at' => now()
         // ])->assignRole($teamMemberRole);
 
-        Team::factory(20)->create();
+
 
         User::factory(60)->create([
             'password' => bcrypt('123.321A'),
